@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文档中心</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* ==================== 主题变量 ==================== */
         :root[data-theme="dark"] {
@@ -136,6 +137,10 @@
             font-size: 22px; color: var(--accent); margin: 40px 0 14px;
             padding-left: 12px; border-left: 4px solid var(--accent);
         }
+        details p {
+            font-size: 15px; color:#e0e0e0; margin: 40px 0 14px;
+            padding-left: 12px; border-left: 4px solid #e0e0e0;
+        }
         h3 { font-size: 17px; margin: 28px 0 10px; }
         p { color: var(--text-muted); margin-bottom: 12px; font-size: 15px; }
         ul, ol { padding-left: 22px; margin-bottom: 14px; color: var(--text-muted); }
@@ -246,7 +251,34 @@
             <p>我们的成员数超过10个，<b>极品</b>事件数不胜数，我们每个人都是<b>极品</b>中的<b>极品</b>。只要你是一个<b>极品</b>，并愿意加入我们，那么我们就是同志了</p>
         </section>
 
+        <section id="chart" class="reveal">
+            <h2>极品指数</h2>
+            <p class="meta">v1.0 · 更新于 2026-11-07</p>
+            <div style="width: 600px;">
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <script>
+                // 3. 获取上下文并创建图表
+                const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+                type: 'bar', // 图表类型：bar, line, pie, doughnut 等
+                data: {
+                    labels: ['CMY', 'YYC', 'YYH', 'LBY', 'DHYY', 'ZZL', 'WYC', 'YYF', 'HYB', 'ZSK', 'WHY', 'YHX', 'SZX', 'ZXY'],
+                    datasets: [{
+                        label: '极品指数',
+                        data: [6.5, 5, 7, 8, 7, 9.8, 8.4, 6.3, 9.4, 8.1, 8.3, 9, 8.6, 4.2],
+                        borderColor: '#e65c00',
+                        backgroundColor: '#e65c00'
+                    }]
+                }
+            });
+        </script>
+
+        </section>
+
         <section id="event-“香肠”事件" class="reveal">
+            <p class="meta">v1.0 · 更新于 2026-11-07</p>
             <h2>极品事件（一）“香肠”事件</h2>
             <h3>极品帮参与者：WYC</h3>
             <p>该事件本质是一场误会，但经过<b>极品</b>的不得了（破绷</p>   
@@ -259,10 +291,11 @@
         </section>
 
         <section id="#event-论阳光菇与向日葵" class="reveal">
+            <p class="meta">v1.0 · 更新于 2026-11-07</p>
             <h2>极品事件（二）论阳光菇与向日葵</h2>
             <h3>极品帮参与者：DHYY ZZL</h3>
             <p>整件事都很极品，ZZL还出了2个大金，当时DHYY没有绷住，YYH旁观时嘴中发出放屁声音</p>
-            <p>起初，DHYY建议ZZL玩一下《植物大战僵尸原版》，讨论到“哪个植物最牛逼”这个问题，从而产生分歧。ZZL认为是向日葵</p>
+            <p>起初，DHYY建议ZZL玩一下《植物大战僵尸原版》，讨论到<b>“哪个植物最牛逼”</b>这个问题，从而产生分歧。ZZL认为是向日葵，因为向日葵产50阳光，比阳光菇多。而DHYY认为阳光菇更牛逼，因为种植只需要25阳光，且长大之后能产75阳光。两人争辩过程中，ZZL爆出大金：<b>手舞足蹈跳舞，一边说：“我没丢车我好牛逼啊。”</b></p>
         </section>
 
     </main>
