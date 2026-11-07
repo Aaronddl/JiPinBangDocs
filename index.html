@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档中心</title>
+    <style>
+        /* ==================== 主题变量 ==================== */
+        :root[data-theme="dark"] {
+            --bg: #0a0a0a;
+            --bg-card: #141414;
+            --bg-code: #0f0f0f;
+            --border: #1e1e1e;
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --accent: #ff6600;
+            --accent-glow: rgba(255,102,0,0.25);
+            --header-bg: rgba(10,10,10,0.92);
+            --sidebar-bg: rgba(10,10,10,0.88);
+            --hover-bg: rgba(255,102,0,0.08);
+            --note-bg: rgba(255,102,0,0.08);
+        }
+        :root[data-theme="light"] {
+            --bg: #f5f5f5;
+            --bg-card: #fff;
+            --bg-code: #f0f0f0;
+            --border: #e0e0e0;
+            --text: #1a1a1a;
+            --text-muted: #999;
+            --accent: #e65c00;
+            --accent-glow: rgba(230,92,0,0.18);
+            --header-bg: rgba(255,255,255,0.92);
+            --sidebar-bg: rgba(245,245,245,0.92);
+            --hover-bg: rgba(230,92,0,0.06);
+            --note-bg: rgba(230,92,0,0.06);
+        }
+
+        /* ==================== 全局 ==================== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            transition: background .3s, color .3s;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ==================== 顶部导航 ==================== */
+        header {
+            position: fixed; top:0; left:0; width:100%; height:60px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 28px; z-index: 1000;
+        }
+        .logo {
+            font-size: 18px; font-weight: 700; color: var(--accent);
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--text); font-weight: 300; }
+        .nav-links { display: flex; gap: 6px; list-style: none; }
+        .nav-links a {
+            padding: 7px 14px; border-radius: 6px; font-size: 14px;
+            color: var(--text-muted); transition: all .2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent); background: var(--hover-bg);
+            text-decoration: none;
+        }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .icon-btn {
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; transition: all .2s;
+        }
+        .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ==================== 布局 ==================== */
+        .layout {
+            display: flex; margin-top: 60px; min-height: calc(100vh - 60px);
+        }
+
+        /* ==================== 左侧目录 ==================== */
+        .sidebar {
+            width: 260px; position: fixed; top: 60px; left: 0;
+            height: calc(100vh - 60px); background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            padding: 20px 0; overflow-y: auto; z-index: 900;
+            transition: transform .3s;
+        }
+        .search-input {
+            width: calc(100% - 32px); margin: 0 16px 16px;
+            padding: 9px 12px 9px 36px; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--bg-card);
+            color: var(--text); font-size: 13px; outline: none;
+            transition: border .2s;
+        }
+        .search-input:focus { border-color: var(--accent); }
+        .search-wrap { position: relative; }
+        .search-wrap::before {
+            content: '🔍'; position: absolute; left: 28px; top: 50%;
+            transform: translateY(-50%); font-size: 12px; opacity: .5;
+        }
+        .toc-label {
+            font-size: 10px; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 2px;
+            padding: 0 20px; margin-bottom: 8px;
+        }
+        .toc-list { list-style: none; }
+        .toc-list a {
+            display: block; padding: 8px 20px; font-size: 14px;
+            color: var(--text-muted); border-left: 3px solid transparent;
+            transition: all .2s;
+        }
+        .toc-list a:hover { background: var(--hover-bg); color: var(--text); text-decoration: none; }
+        .toc-list a.active {
+            color: var(--accent); background: var(--hover-bg);
+            border-left-color: var(--accent);
+        }
+        .toc-list .sub { padding-left: 36px; font-size: 13px; }
+
+        /* ==================== 主内容 ==================== */
+        .content {
+            margin-left: 260px; padding: 40px 50px 80px;
+            max-width: 860px; width: 100%;
+        }
+        section { margin-bottom: 56px; padding-top: 16px; }
+        h1 { font-size: 30px; margin-bottom: 8px; }
+        .meta { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+        h2 {
+            font-size: 22px; color: var(--accent); margin: 40px 0 14px;
+            padding-left: 12px; border-left: 4px solid var(--accent);
+        }
+        h3 { font-size: 17px; margin: 28px 0 10px; }
+        p { color: var(--text-muted); margin-bottom: 12px; font-size: 15px; }
+        ul, ol { padding-left: 22px; margin-bottom: 14px; color: var(--text-muted); }
+        li { margin-bottom: 6px; }
+
+        /* 代码 */
+        pre {
+            background: var(--bg-code); border: 1px solid var(--border);
+            border-radius: 8px; padding: 16px 20px; overflow-x: auto;
+            margin: 16px 0; font-size: 13px; line-height: 1.6;
+        }
+        code { font-family: 'Consolas', monospace; color: var(--accent); }
+        p code, li code {
+            background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* 提示框 */
+        .note {
+            background: var(--note-bg); border-left: 4px solid var(--accent);
+            padding: 12px 16px; border-radius: 0 8px 8px 0;
+            margin: 16px 0; font-size: 14px; color: var(--text-muted);
+        }
+        .note b { color: var(--accent); }
+
+        /* 表格 */
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { color: var(--accent); background: var(--bg-card); }
+        td { color: var(--text-muted); }
+
+        /* 渐入动画 */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all .5s ease-out; }
+        .reveal.show { opacity: 1; transform: translateY(0); }
+
+        /* 回到顶部 */
+        .top-btn {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--accent); color: #fff; border: none;
+            cursor: pointer; font-size: 18px;
+            opacity: 0; visibility: hidden; transition: all .3s;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px var(--accent-glow); z-index: 999;
+        }
+        .top-btn.show { opacity: 1; visibility: visible; }
+        .top-btn:hover { transform: translateY(-2px); }
+
+        /* 移动端 */
+        .menu-toggle { display: none; }
+        @media (max-width: 860px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .content { margin-left: 0; padding: 28px 20px 60px; }
+            .menu-toggle { display: flex; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<header>
+    <div style="display:flex;align-items:center;gap:12px">
+        <button class="icon-btn menu-toggle" id="menuBtn">☰</button>
+        <div class="logo">极品帮<span>文档中心</span></div>
+        <a href="/index.html">点击这里返回首页</a>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#" class="active">文档</a></li>
+        <li><a href="#">API</a></li>
+        <li><a href="#">指南</a></li>
+        <li><a href="#">更新日志</a></li>
+    </ul>
+    <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" title="切换主题">🌙</button>
+    </div>
+</header>
+
+<div class="layout">
+    <!-- 左侧目录 -->
+    <aside class="sidebar" id="sidebar">
+        <div class="search-wrap">
+            <input class="search-input" id="searchInput" placeholder="搜索文档...">
+        </div>
+        <div class="toc-label">目录</div>
+        <ul class="toc-list" id="tocList">
+            <li><a href="#intro" class="active">组织简介</a></li>
+            <li><a href="#event-“香肠”事件">极品事件（一）“香肠”事件</a></li>
+            <li><a href="#config">基础配置</a></li>
+            <li><a href="#usage">使用示例</a></li>
+            <li><a href="#api">API 参考</a></li>
+            <li><a href="#faq">常见问题</a></li>
+        </ul>
+    </aside>
+
+    <!-- 右侧内容 -->
+    <main class="content">
+
+        <section id="intro" class="reveal">
+            <h2>组织简介</h2>
+            <p class="meta">v1.0 · 更新于 2026-11-07</p>
+            <p>极品帮创立于江湖之中，汇聚了一群不甘平庸、追求极致的热血之人。我们以"极品"为名，以卓越为志，在各自的领域中不断突破，追求完美。</p>
+            <p>在这里，没有不可能，只有还不够努力。我们崇尚实力，尊重个性，鼓励创新，包容多元。</p>
+            <p>我们的成员数超过10个，极品事件数不胜数，我们每个人都是极品中的极品。只要你是一个极品，并愿意加入我们，那么我们就是同志了</p>
+        </section>
+
+        <section id="event-“香肠”事件" class="reveal">
+            <h2>极品事件（一）“香肠”事件</h2>
+            <h3>极品帮参与者：WYC</h3>
+            <p>将文件下载到本地，直接用浏览器打开即可预览。</p>
+            <pre><code># 克隆仓库
+git clone https://github.com/yourname/docshub.git
+cd docshub
+
+# 直接用浏览器打开 index.html</code></pre>
+            <h3>通过 CDN 引入</h3>
+            <pre><code>&lt;link rel="stylesheet" href="https://cdn.example.com/docshub/style.css"&gt;
+&lt;script src="https://cdn.example.com/docshub/app.js"&gt;&lt;/script&gt;</code></pre>
+        </section>
+
+        <section id="config" class="reveal">
+            <h2>基础配置</h2>
+            <p>在 <code>config.js</code> 中修改站点信息：</p>
+            <pre><code>export default {
+  title: '我的文档',
+  theme: 'dark',        // dark | light
+  sidebar: true,        // 是否显示左侧目录
+  search: true          // 是否启用搜索
+}</code></pre>
+            <h3>配置项说明</h3>
+            <table>
+                <tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr>
+                <tr><td>title</td><td>string</td><td>'DocHub'</td><td>站点标题</td></tr>
+                <tr><td>theme</td><td>string</td><td>'dark'</td><td>默认主题</td></tr>
+                <tr><td>sidebar</td><td>boolean</td><td>true</td><td>显示侧边栏</td></tr>
+                <tr><td>search</td><td>boolean</td><td>true</td><td>启用搜索</td></tr>
+            </table>
+        </section>
+
+        <section id="usage" class="reveal">
+            <h2>使用示例</h2>
+            <p>最简单的页面结构：</p>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;我的文档&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello, DocHub!&lt;/h1&gt;
+  &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <div class="note"><b>⚠️ 注意：</b>确保 <code>style.css</code> 和 <code>app.js</code> 路径正确，否则样式和交互可能失效。</div>
+        </section>
+
+        <section id="api" class="reveal">
+            <h2>API 参考</h2>
+            <h3>init(config)</h3>
+            <p>初始化文档站点，接收配置对象。</p>
+            <pre><code>import { init } from 'docshub';
+
+init({
+  title: '我的项目',
+  theme: 'light'
+});</code></pre>
+            <h3>setTheme(mode)</h3>
+            <p>动态切换主题，<code>mode</code> 为 <code>'dark'</code> 或 <code>'light'</code>。</p>
+            <pre><code>import { setTheme } from 'docshub';
+
+setTheme('dark');</code></pre>
+        </section>
+
+        <section id="faq" class="reveal">
+            <h2>常见问题</h2>
+            <h3>如何自定义主题色？</h3>
+            <p>修改 CSS 变量中的 <code>--accent</code> 值即可：</p>
+            <pre><code>:root {
+  --accent: #ff6600;  /* 改为你喜欢的颜色 */
+}</code></pre>
+            <h3>移动端侧边栏不显示？</h3>
+            <p>点击左上角 ☰ 按钮即可展开/收起侧边栏。这是为小屏幕设计的交互方式。</p>
+        </section>
+
+    </main>
+</div>
+
+<!-- 回到顶部 -->
+<button class="top-btn" id="topBtn">↑</button>
+
+<script>
+    // 主题切换
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+        const html = document.documentElement;
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        themeBtn.textContent = next === 'dark' ? '🌙' : '☀️';
+    });
+
+    // 移动端菜单
+    document.getElementById('menuBtn').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    // 目录高亮
+    const sections = document.querySelectorAll('section');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                tocLinks.forEach(l => l.classList.remove('active'));
+                const active = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-80px 0px -60% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // 搜索过滤
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const keyword = this.value.toLowerCase();
+        document.querySelectorAll('.toc-list li').forEach(li => {
+            const text = li.textContent.toLowerCase();
+            li.style.display = text.includes(keyword) ? '' : 'none';
+        });
+    });
+
+    // 回到顶部
+    const topBtn = document.getElementById('topBtn');
+    window.addEventListener('scroll', () => {
+        topBtn.classList.toggle('show', window.scrollY > 300);
+    });
+    topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // 滚动渐入
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
