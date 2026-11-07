@@ -193,6 +193,9 @@
             .menu-toggle { display: flex; }
             .nav-links { display: none; }
         }
+        b {
+            color:#e65c00;
+        }
     </style>
 </head>
 <body>
@@ -225,7 +228,7 @@
         <ul class="toc-list" id="tocList">
             <li><a href="#intro" class="active">组织简介</a></li>
             <li><a href="#event-“香肠”事件">极品事件（一）“香肠”事件</a></li>
-            <li><a href="#config">基础配置</a></li>
+            <li><a href="#event-论阳光菇与向日葵">极品事件（二）论阳光菇与向日葵</a></li>
             <li><a href="#usage">使用示例</a></li>
             <li><a href="#api">API 参考</a></li>
             <li><a href="#faq">常见问题</a></li>
@@ -246,80 +249,19 @@
         <section id="event-“香肠”事件" class="reveal">
             <h2>极品事件（一）“香肠”事件</h2>
             <h3>极品帮参与者：WYC</h3>
-            <p>将文件下载到本地，直接用浏览器打开即可预览。</p>
-            <pre><code># 克隆仓库
-git clone https://github.com/yourname/docshub.git
-cd docshub
-
-# 直接用浏览器打开 index.html</code></pre>
-            <h3>通过 CDN 引入</h3>
-            <pre><code>&lt;link rel="stylesheet" href="https://cdn.example.com/docshub/style.css"&gt;
-&lt;script src="https://cdn.example.com/docshub/app.js"&gt;&lt;/script&gt;</code></pre>
+            <p>该事件本质是一场误会，但经过极品的不得了（破绷</p>   
+            <p>WYC在晚课期间与代号“香肠”的女生特别能聊天，关系比较好。有一次，WYC让“香肠”代他买个东西，“香肠”找机会给他背帮派外某人发现，其误认为“香肠”和WYC产生微妙关系，回班后大肆宣扬，就导致了震惊帮内外的<b>“香肠”事件</b>。</p>
+            <p>而结果是，WYC向我们表明他并没有那方面的想法，并且也向“香肠”澄清。</p>    
+            <details>
+                <summary>相关趣闻</summary>
+                <p>YYH记录此事件时，用水笔在记事本上书写，字迹过于丑陋，于是DHYY、LBY和ZZL对其展开“破译”，DHYY将“‘香肠’事件”误认为“‘香肠肿’事件”（我们都没有轻松绷住</p>
+            </details>
         </section>
 
-        <section id="config" class="reveal">
-            <h2>基础配置</h2>
-            <p>在 <code>config.js</code> 中修改站点信息：</p>
-            <pre><code>export default {
-  title: '我的文档',
-  theme: 'dark',        // dark | light
-  sidebar: true,        // 是否显示左侧目录
-  search: true          // 是否启用搜索
-}</code></pre>
-            <h3>配置项说明</h3>
-            <table>
-                <tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr>
-                <tr><td>title</td><td>string</td><td>'DocHub'</td><td>站点标题</td></tr>
-                <tr><td>theme</td><td>string</td><td>'dark'</td><td>默认主题</td></tr>
-                <tr><td>sidebar</td><td>boolean</td><td>true</td><td>显示侧边栏</td></tr>
-                <tr><td>search</td><td>boolean</td><td>true</td><td>启用搜索</td></tr>
-            </table>
-        </section>
-
-        <section id="usage" class="reveal">
-            <h2>使用示例</h2>
-            <p>最简单的页面结构：</p>
-            <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="zh-CN"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;我的文档&lt;/title&gt;
-  &lt;link rel="stylesheet" href="style.css"&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h1&gt;Hello, DocHub!&lt;/h1&gt;
-  &lt;script src="app.js"&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-            <div class="note"><b>⚠️ 注意：</b>确保 <code>style.css</code> 和 <code>app.js</code> 路径正确，否则样式和交互可能失效。</div>
-        </section>
-
-        <section id="api" class="reveal">
-            <h2>API 参考</h2>
-            <h3>init(config)</h3>
-            <p>初始化文档站点，接收配置对象。</p>
-            <pre><code>import { init } from 'docshub';
-
-init({
-  title: '我的项目',
-  theme: 'light'
-});</code></pre>
-            <h3>setTheme(mode)</h3>
-            <p>动态切换主题，<code>mode</code> 为 <code>'dark'</code> 或 <code>'light'</code>。</p>
-            <pre><code>import { setTheme } from 'docshub';
-
-setTheme('dark');</code></pre>
-        </section>
-
-        <section id="faq" class="reveal">
-            <h2>常见问题</h2>
-            <h3>如何自定义主题色？</h3>
+        <section id="#event-论阳光菇与向日葵" class="reveal">
+            <h2>极品事件（二）论阳光菇与向日葵</h2>
+            <h3>极品帮参与者：DHYY ZZL</h3>
             <p>修改 CSS 变量中的 <code>--accent</code> 值即可：</p>
-            <pre><code>:root {
-  --accent: #ff6600;  /* 改为你喜欢的颜色 */
-}</code></pre>
-            <h3>移动端侧边栏不显示？</h3>
-            <p>点击左上角 ☰ 按钮即可展开/收起侧边栏。这是为小屏幕设计的交互方式。</p>
         </section>
 
     </main>
